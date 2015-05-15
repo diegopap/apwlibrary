@@ -5,7 +5,7 @@
 //  by Javier Santo Domingo (j-a-s-d@coderesearchlabs.com)
 //
 
-package crl.android.pdfwriter;
+package com.fdvs.pdfwriter;
 
 import java.util.ArrayList;
 
@@ -103,6 +103,17 @@ public class Page {
 		);
 	}
 
+    public void addText(int leftPosition, int topPositionFromBottom, int fontSize, String text, float grayColor) {
+        addContent(
+                "BT\n" +
+                        Transformation.DEGREES_0_ROTATION + " " + Integer.toString(leftPosition) + " " + Integer.toString(topPositionFromBottom) + " Tm\n" +
+                        "/F" + Integer.toString(mPageFonts.size()) + " " + Integer.toString(fontSize) + " Tf\n" +
+                        String.valueOf(grayColor) + " g\n" +
+                        "(" + text + ") Tj\n" +
+                        "ET\n"
+        );
+    }
+
 	public void addTextAsHex(int leftPosition, int topPositionFromBottom, int fontSize, String hex) {
 		addTextAsHex(leftPosition, topPositionFromBottom, fontSize, hex, Transformation.DEGREES_0_ROTATION);
 	}
@@ -123,6 +134,16 @@ public class Page {
 			Integer.toString(toLeft) + " " + Integer.toString(toBottom) + " l\nS\n"
 		);
 	}
+
+    public void addLine(int fromLeft, int fromBottom, int toLeft, int toBottom, float grayColor) {
+        addContent(
+                "B\n" +
+                String.valueOf(grayColor) + " G\n" +
+                Integer.toString(fromLeft) + " " + Integer.toString(fromBottom) + " m\n" +
+                Integer.toString(toLeft) + " " + Integer.toString(toBottom) + " l\n" +
+                "b\n"
+        );
+    }
 	
 	public void addRectangle(int fromLeft, int fromBottom, int toLeft, int toBottom) {
 		addContent(
